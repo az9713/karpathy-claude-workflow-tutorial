@@ -4,6 +4,8 @@ A step-by-step tutorial on Nate Herk's workflow for turning Andrej Karpathy's pu
 
 **[Read the live tutorial on GitHub Pages](https://az9713.github.io/karpathy-claude-workflow-tutorial/)**
 
+[![Preview of the live step-by-step tutorial](assets/tutorial-preview.jpg)](https://az9713.github.io/karpathy-claude-workflow-tutorial/)
+
 The tutorial brings the video's explanation, seven teaching rules, reusable prompts, and timestamp references into one self-contained web page.
 
 ## Inspiration
@@ -57,5 +59,6 @@ The page includes 12 readable user prompts or command templates and one delegate
 
 - [`index.html`](index.html): the complete standalone tutorial, served by GitHub Pages.
 - [`README.md`](README.md): project overview, inspiration, and live-page links.
+- [`assets/tutorial-preview.jpg`](assets/tutorial-preview.jpg): a clickable preview of the live page in this README.
 
 GitHub's README links open the rendered tutorial on GitHub Pages. The HTML source itself is available above for download or inspection.
