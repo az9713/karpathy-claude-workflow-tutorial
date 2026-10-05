@@ -6,7 +6,7 @@ description: "Build or update a reusable, evidence-grounded skill for applying a
 # Build Expert Workflow
 
 Turn observable expert methods into a bounded, testable workflow. Inspired by
-[Nate Herk's Karpathy/Claude demonstration](https://www.youtube.com/watch?v=bvGptCLDhyo),
+[the host's Karpathy/Claude demonstration](https://www.youtube.com/watch?v=bvGptCLDhyo),
 but generalize its evidence and verification steps rather than its seven rules.
 This skill builds task skills; it does not train model weights or recreate a mind.
 

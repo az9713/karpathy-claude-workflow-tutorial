@@ -1,6 +1,6 @@
-# From Nate Herk's Karpathy workflow to reusable expert skills
+# From the host's Karpathy workflow to reusable expert skills
 
-We started by turning Nate Herk's Karpathy demonstration into a step-by-step tutorial. We then created **`build-expert-workflow`**, a reusable skill for extracting a named expert's documented methods for a bounded task. We used that builder to create **`feynman-harmonic-oscillator`**, explained its creation in a second tutorial, and produced a worked oscillator lesson using the resulting skill.
+We started by turning the host's Karpathy demonstration into a step-by-step tutorial. We then created **`build-expert-workflow`**, a reusable skill for extracting a named expert's documented methods for a bounded task. We used that builder to create **`feynman-harmonic-oscillator`**, explained its creation in a second tutorial, and produced a worked oscillator lesson using the resulting skill.
 
 The intention is to make expert-method “cloning” reusable across topics: build an assistant guided by observable methods, source support, and task-specific checks. A successful package does not establish that it reproduces an expert's mind or judgment. Feynman fidelity and comparative learning benefit remain unmeasured.
 
@@ -10,15 +10,15 @@ These links open rendered HTML on GitHub Pages, rather than HTML source in GitHu
 
 | Step | Live page | What it shows |
 | --- | --- | --- |
-| 1. Start with Nate's demonstration | [Karpathy workflow tutorial](https://az9713.github.io/karpathy-claude-workflow-tutorial/) | Nate's sequence, extracted prompts, teaching rules, timestamps and reproduction limits. |
+| 1. Start with the host's demonstration | [Karpathy workflow tutorial](https://az9713.github.io/karpathy-claude-workflow-tutorial/) | The host's sequence, extracted prompts, teaching rules, timestamps and reproduction limits. |
 | 2. Generalize the workflow | [Build Expert Workflow guide](https://az9713.github.io/karpathy-claude-workflow-tutorial/expert-workflow-skill-guide.html) | How to invoke the builder, select sources, handle gaps, package methods and plan evaluation. |
 | 3. Apply it to Feynman | [Feynman skill and evidence report](https://az9713.github.io/karpathy-claude-workflow-tutorial/skills/feynman-harmonic-oscillator/overview.html) | The resulting capability, source coverage, restrictions, gaps and evaluation status. |
 | 4. Demystify the specialization | [How the Feynman skill was created](https://az9713.github.io/karpathy-claude-workflow-tutorial/feynman-skill-creation.html) | Each builder stage mapped to a concrete decision, plus source-to-instruction-to-test examples. |
 | 5. Use the resulting skill | [Worked spring-oscillator lesson](https://az9713.github.io/karpathy-claude-workflow-tutorial/feynman-oscillator-example.html) | A prediction, numerical construction, exact solution, energy checks and transfer question. |
 
-[![Preview of the live step-by-step tutorial](assets/tutorial-preview.jpg)](https://az9713.github.io/karpathy-claude-workflow-tutorial/)
+[![Preview of the live step-by-step tutorial](assets/tutorial-preview.png)](https://az9713.github.io/karpathy-claude-workflow-tutorial/)
 
-The original tutorial brings the video's explanation, seven teaching rules, reusable prompts, and timestamp references into one self-contained web page. The later pages document our generalization and its Feynman application; those additions are our work, rather than content attributed to Nate's video.
+The original tutorial brings the video's explanation, seven teaching rules, reusable prompts, and timestamp references into one self-contained web page. The later pages document our generalization and its Feynman application; those additions are our work, rather than content attributed to the host's video.
 
 ## The two reusable skills
 
@@ -31,11 +31,11 @@ These `skills/` folders are portable source packages. They are not automatically
 
 ## Inspiration
 
-This project is inspired by Nate Herk's video, **[I Built Another Andrej Karpathy Using Claude](https://www.youtube.com/watch?v=bvGptCLDhyo)**. The workflow and demonstrated prompts come from his video. This project organizes them into a written tutorial with explanations and source limitations.
+This project is inspired by the host's video, **[I Built Another Andrej Karpathy Using Claude](https://www.youtube.com/watch?v=bvGptCLDhyo)**. The workflow and demonstrated prompts come from his video. This project organizes them into a written tutorial with explanations and source limitations.
 
 “Build another Andrej Karpathy” is the video's framing for an agent guided by methods distilled from public sources. The workflow builds a source-backed wiki and teaching instructions; it does not describe training new model weights or transferring a person's mind.
 
-## Nate's original demonstrated workflow
+## The original demonstrated workflow
 
 Open the [live tutorial](https://az9713.github.io/karpathy-claude-workflow-tutorial/) and work through the prompts in order:
 
@@ -74,7 +74,7 @@ The page includes 12 readable user prompts or command templates and one delegate
 - The opening montage's sixth numbered prompt card is blurred. The tutorial uses the readable tokenizer test command demonstrated later and marks that distinction.
 - The video demonstrates `karpathy-ingest` without showing a readable prompt that creates that skill. Reproducing ingestion requires an additional implementation.
 - The delegated review block replaces the creator's machine-specific repository name and path with portable placeholders.
-- Reported corpus size, retrieval duration/cost, and example results remain attributed to Nate's demonstration. They are not independently reproduced benchmarks or current pricing estimates.
+- Reported corpus size, retrieval duration/cost, and example results remain attributed to the host's demonstration. They are not independently reproduced benchmarks or current pricing estimates.
 - The Feynman build found no `./sources` folder and used accessible Caltech lecture text. The book is edited and coauthored; procedural inference is distinguished from direct teaching self-report and builder-supplied physics checks.
 - Feynman package format, links, portability and seven mathematical fixture groups were checked. Eleven behavioral evaluation tasks are recorded, but the controlled base-model / retrieval-only / skill comparison and learner review have not been run. A worked lesson is not a controlled effectiveness benchmark.
 - The public package includes original synthesis, links and authored checks. Raw video, transcripts, copied lecture figures, private notes and machine-specific configuration are excluded.
@@ -89,7 +89,7 @@ The page includes 12 readable user prompts or command templates and one delegate
 - [`skills/feynman-harmonic-oscillator/`](skills/feynman-harmonic-oscillator/): teaching entrypoint, evidence, evaluations, mathematical checks and HTML overview.
 - [`scripts/check_public_package.py`](scripts/check_public_package.py): publication-file, internal-link and privacy checks.
 - [`README.md`](README.md): project overview, inspiration, and live-page links.
-- [`assets/tutorial-preview.jpg`](assets/tutorial-preview.jpg): a clickable preview of the live page in this README.
+- [`assets/tutorial-preview.png`](assets/tutorial-preview.png): a clickable preview of the live page in this README.
 
 Use the live-page table above for rendered reading. The repository-file links are for inspection or download.
 

@@ -4,7 +4,7 @@ Audit date: 2026-10-05. Target: Richard P. Feynman's documented exposition of th
 
 ## Local audit and access
 
-The requested `./sources` directory did not exist when audited. Existing repository files concerned Nate Herk's Karpathy workflow and were not used as evidence of Feynman's methods. No local Feynman corpus was available; nothing was silently substituted for it. No interviews, contact, purchases, or publication occurred.
+The requested `./sources` directory did not exist when audited. Existing repository files concerned the host's Karpathy workflow and were not used as evidence of Feynman's methods. No local Feynman corpus was available; nothing was silently substituted for it. No interviews, contact, purchases, or publication occurred.
 
 Public pages were read through web retrieval. Access states describe inspected text, not entire books. Figures were not visually inspected; their captions and associated explanation were available. Audio was not played. No source downloads, full-text extracts, figures, or transcripts are included in this bundle. Extraction consists of the short labeled paraphrases below, kept separately from the public originals.
 

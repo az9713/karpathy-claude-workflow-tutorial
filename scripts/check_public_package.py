@@ -7,7 +7,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
-    '.gitignore', '.nojekyll', 'README.md', 'index.html', 'assets/tutorial-preview.jpg',
+    '.gitignore', '.nojekyll', 'README.md', 'index.html', 'assets/tutorial-preview.png',
     'expert-workflow-skill-guide.html', 'feynman-skill-creation.html',
     'feynman-oscillator-example.html', 'scripts/check_public_package.py',
     'skills/build-expert-workflow/SKILL.md',
