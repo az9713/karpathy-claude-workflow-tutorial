@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Spring Oscillator Example</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;background:#0f172a;color:#e2e8f0;font:17px/1.65 system-ui,sans-serif}
+main{max-width:860px;margin:auto;padding:40px 16px 80px}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.2;color:#fb923c}
+h2{margin-top:2.2rem;font-size:1.35rem;color:#2dd4bf;border-bottom:1px solid #334155;padding-bottom:.3rem}
+p,li{color:#cbd5e1}strong{color:#e2e8f0}a{color:#2dd4bf}
+code{background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 5px;font-size:.9em;color:#e2e8f0}
+table{border-collapse:collapse;width:100%;font-size:.93rem;margin:1rem 0;display:block;overflow-x:auto}
+th,td{padding:9px 10px;border-bottom:1px solid #334155;text-align:left;vertical-align:top}
+th{color:#fb923c;background:#1e293b}
+blockquote{margin:1rem 0;padding:10px 18px;background:#1e293b;border-left:4px solid #fb923c;border-radius:4px}
+details{background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 16px}
+summary{cursor:pointer;color:#fb923c;font-weight:600}
+</style>
+</head>
+<body>
+<main>
+<h1>A 2 kg mass on an 18 N/m spring</h1>
+<p><strong>What you should be able to do at the end:</strong> predict how the mass moves from the force law and its starting state, then check the prediction. You need two things first: Newton's second law, and the derivatives of sine and cosine.</p>
+<p><strong>Assumptions:</strong></p>
+<ul>
+<li>The spring is linear (Hooke's law) and has no mass.</li>
+<li>There is no friction and no drive force.</li>
+<li><code>x</code> is measured from the equilibrium position. If the spring hangs vertically, gravity only moves the equilibrium position, so the model does not change.</li>
+</ul>
+<p><strong>The data:</strong></p>
+<ul>
+<li><code>m = 2 kg</code>, <code>k = 18 N/m</code></li>
+<li><code>x(0) = +0.3 m</code>: the spring is stretched.</li>
+<li><code>v(0) = −0.6 m/s</code>: the mass already moves toward equilibrium.</li>
+</ul>
+<h2>1. Predict before you calculate</h2>
+<p>At <code>t = 0</code> the force is <code>F = −kx = −18 × 0.3 = −5.4 N</code>. The acceleration is <code>−2.7 m/s²</code>. The velocity is negative too, so the force and the motion point the same way, and the mass speeds up toward equilibrium.</p>
+<p>When the mass reaches <code>x = 0</code> it is moving, so it goes past equilibrium. It went in with some speed, so it can go farther than 0.3 m on the other side.</p>
+<p><strong>Prediction:</strong></p>
+<ul>
+<li>The motion is an oscillation.</li>
+<li>The amplitude is larger than 0.3 m.</li>
+<li>The fastest speed occurs at <code>x = 0</code>. At that point the acceleration is zero.</li>
+</ul>
+<h2>2. Make the equation act, step by step (M1)</h2>
+<p>The equation of motion is <code>m·x'' = −k·x</code>, so <code>x'' = −9·x</code>. Read it as a rule:</p>
+<ul>
+<li>The position sets the acceleration.</li>
+<li>The acceleration changes the velocity.</li>
+<li>The velocity changes the position.</li>
+</ul>
+<p>This uses the staggered method from S09, Eq. 9.16, with a time step <code>h = 0.1 s</code>. In this method, velocities are computed at half-steps:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Calculation</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Half-step velocity</td>
+<td><code>v(0.05) = −0.6 + 0.05 × (−2.7)</code></td>
+<td><code>−0.735 m/s</code></td>
+</tr>
+<tr>
+<td>Position</td>
+<td><code>x(0.1) = 0.3 + 0.1 × (−0.735)</code></td>
+<td><code>0.2265 m</code> (exact value: <code>0.22750</code>)</td>
+</tr>
+<tr>
+<td>New acceleration</td>
+<td><code>−9 × 0.2265</code></td>
+<td><code>−2.0385 m/s²</code></td>
+</tr>
+<tr>
+<td>Next half-step velocity</td>
+<td><code>v(0.15) = −0.735 − 0.20385</code></td>
+<td><code>−0.93885 m/s</code></td>
+</tr>
+<tr>
+<td>Position</td>
+<td><code>x(0.2)</code></td>
+<td><code>0.13262 m</code> (exact value: <code>0.13467</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Accuracy check:</strong> I ran the method to <code>t = π/6 s</code> with smaller time steps. Each time the step was halved, the error became about 4 times smaller:</p>
+<table>
+<thead>
+<tr>
+<th>Steps</th>
+<th>Error at <code>t = π/6 s</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>0.00447 m</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0.00111 m</td>
+</tr>
+<tr>
+<td>20</td>
+<td>0.000276 m</td>
+</tr>
+<tr>
+<td>40</td>
+<td>0.0000688 m</td>
+</tr>
+</tbody>
+</table>
+<p>So the steps converge. They give a correct picture without a known formula.</p>
+<h2>3. Solve exactly and test the solution (M2)</h2>
+<p><strong>The frequency.</strong> Try a cosine, then substitute it into <code>x'' = −9x</code>. That gives <code>ω₀² = k/m = 9</code>, so <code>ω₀ = 3 rad/s</code>. The period is <code>T = 2π/3 ≈ 2.094 s</code>.</p>
+<p>The units agree: <code>(N/m)/kg = 1/s²</code>. The period does not depend on the amplitude. Four times the mass gives twice the period.</p>
+<p><strong>The constants from the starting state.</strong> Use <code>x = x₀·cos(3t) + (v₀/ω₀)·sin(3t)</code>. With the data:</p>
+<blockquote>
+<p><code>x(t) = 0.3·cos(3t) − 0.2·sin(3t)</code> (in m)<br>
+<code>v(t) = −0.9·sin(3t) − 0.6·cos(3t)</code> (in m/s)</p>
+</blockquote>
+<p><strong>The checks:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equation</td>
+<td><code>x'' = −9x</code> exactly, so <code>m·x'' + k·x = 0</code></td>
+</tr>
+<tr>
+<td>Initial values</td>
+<td><code>x(0) = 0.3 m</code> ✓. <code>v(0) = −0.6 m/s</code> ✓</td>
+</tr>
+<tr>
+<td>Energy</td>
+<td><code>E = ½mv² + ½kx² = ½·2·0.36 + ½·18·0.09 = 0.36 + 0.81 = 1.17 J</code></td>
+</tr>
+<tr>
+<td>Energy constant in time</td>
+<td><code>dE/dt = v·(m·x'' + k·x) = 0</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Compare with the prediction.</strong></p>
+<ul>
+<li>The amplitude is <code>A = √(0.3² + 0.2²) = 0.3606 m</code>. That is larger than 0.3 m, as predicted.</li>
+<li>Energy gives the same number: <code>½kA² = 9 × 0.13 = 1.17 J</code>.</li>
+<li>The maximum speed is <code>ω₀A = 1.082 m/s</code>, and <code>½·m·v_max² = 1.17 J</code>. ✓</li>
+<li>The mass passes <code>x = 0</code> at <code>t = 0.328 s</code>, moving at its maximum speed.</li>
+<li>It reaches <code>x = −0.3606 m</code> at <code>t = 0.851 s</code>.</li>
+</ul>
+<p><strong>After a quarter cycle</strong> (<code>t = π/6 = 0.524 s</code>): <code>x = −0.2 m</code> and <code>v = −0.9 m/s</code>. Energy: <code>0.81 + 0.36 = 1.17 J</code> ✓. The start values return with their roles swapped:</p>
+<ul>
+<li>The new position is <code>v₀/ω₀</code>.</li>
+<li>The new velocity is <code>−ω₀·x₀</code>.</li>
+</ul>
+<p>This swap is easiest to see with the circle picture in S21 §21-3. Draw a point that moves around a circle at a constant 3 rad/s. The mass's position is the shadow of that point on one axis. The mass does not move in a circle. The picture only shows the phase. Here the phase angle is <code>atan2(0.2, 0.3) = 0.588 rad</code> (33.7°), so <code>x = 0.3606·cos(3t + 0.588)</code>.</p>
+<p><strong>Size versus timing.</strong> Double both <code>x₀</code> and <code>v₀</code> and the amplitude doubles, the energy becomes 4 times larger (4.68 J), and the period stays 2.094 s. The starting data set the size. The ratio <code>k/m</code> sets the timing. A change to the amplitude cannot correct a wrong frequency [S21, §21-2].</p>
+<h2>4. Core and extensions (M6)</h2>
+<p>The <strong>core</strong> of this lesson is sections 1 to 3: the force law → the motion → the checks. This problem has no damping and no drive force, so I did not add them. Those are extensions:</p>
+<ul>
+<li>Damping is method M4.</li>
+<li>Drive forces and resonance are method M3.</li>
+</ul>
+<p>Tell me if you want either one.</p>
+<h2>5. Transfer question</h2>
+<p>Keep <code>x₀ = 0.3 m</code> and <code>v₀ = −0.6 m/s</code>. Change the mass to 8 kg. Before you calculate, predict three things: does the period go up or down? Does the amplitude grow or shrink? Does the energy change?</p>
+<details><summary>Answer key</summary>
+<ul>
+<li><code>ω₀ = 1.5 rad/s</code> and <code>T = 4.189 s</code>. Four times the mass doubles the period.</li>
+<li><code>x = 0.3·cos(1.5t) − 0.4·sin(1.5t)</code>, so <code>A = 0.5 m</code>. The same speed now carries the mass farther, because the return force works on more mass.</li>
+<li><code>E = 1.44 + 0.81 = 2.25 J</code>. The kinetic energy at the start is 4 times larger.</li>
+</ul>
+</details>
+<h2>Sources</h2>
+<ul>
+<li><strong>M1:</strong> <a href="https://www.feynmanlectures.caltech.edu/I_09.html">S09, Newton's Laws of Dynamics</a>, §§9-4 to 9-6, Eq. 9.16 (the staggered steps) and Table 9-1.</li>
+<li><strong>M2:</strong> <a href="https://www.feynmanlectures.caltech.edu/I_21.html">S21, The Harmonic Oscillator</a>:
+<ul>
+<li>§21-2: amplitude scaling versus time scaling</li>
+<li>§21-3: the circle projection</li>
+<li>§21-4: the constants from the initial data, and the energy check (Eqs. 21.2–21.7)</li>
+</ul>
+</li>
+<li><strong>M6:</strong> <a href="https://www.feynmanlectures.caltech.edu/I_91.html">SP, Feynman's Preface</a>, the paragraphs that begin &quot;For this reason&quot; and &quot;At the same time&quot;.</li>
+</ul>
+<h2>What remains uncertain</h2>
+<ul>
+<li><strong>The methods.</strong> M1 and M2 are the skill builder's inferences from worked examples in the edited lectures. They are not rules that Feynman stated. M6 is a preference he stated in his preface.</li>
+<li><strong>The numbers.</strong> The numbers for this spring are ordinary physics calculated for this example. The sources do not contain them, and they are not a statement of what Feynman would do. Numerical checks support the arithmetic for the tested inputs; the equation substitution and energy derivation supply the analytic checks. The reusable fixture is <a href="skills/feynman-harmonic-oscillator/scripts/check.py"><code>scripts/check.py</code></a> (task T2).</li>
+<li><strong>The skill's quality.</strong> Nobody has measured whether this explanation helps a learner more than an explanation without the skill. The behavioral tests B0, B1 and B2 in <code>evaluations.md</code> have not been run.</li>
+</ul>
+<p><a href="index.html">Start with Nate's Karpathy workflow</a> · <a href="expert-workflow-skill-guide.html">General builder guide</a> · <a href="feynman-skill-creation.html">How this skill was created</a> · <a href="skills/feynman-harmonic-oscillator/overview.html">Evidence and evaluation status</a></p>
+</main>
+</body>
+</html>

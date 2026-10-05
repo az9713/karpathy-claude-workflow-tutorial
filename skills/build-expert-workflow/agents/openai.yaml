@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Expert Workflow"
+  short_description: "Distill expert methods with evidence and honest limits"
+  default_prompt: "Use $build-expert-workflow to create an evidence-grounded workflow for an expert and a specific task, adapting to sparse or restricted sources."

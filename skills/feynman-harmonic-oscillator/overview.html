@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feynman harmonic oscillator — skill, evidence and evaluations</title>
+<style>
+:root{color-scheme:dark;--bg:#111820;--fg:#e6ecf2;--muted:#b3c1cf;--line:#344453;--accent:#92d2ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:48px 24px 80px}h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.15;max-width:850px}h2{margin-top:2.2rem;font-size:1.4rem}p{max-width:80ch}a{color:var(--accent);text-underline-offset:3px}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}small,.meta{color:var(--muted)}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:20px;border:1px solid var(--line);background:#18232d;border-radius:6px}code{font-size:.9em}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--accent)}.scroll{overflow-x:auto}ul,ol{padding-left:24px}li{margin:8px 0}.status{border-left:4px solid var(--accent);padding:8px 18px;background:#18232d}summary{cursor:pointer;color:var(--accent);font-weight:600}details{border-top:1px solid var(--line);padding:15px 0}@media print{:root{color-scheme:light;--bg:white;--fg:black;--muted:#333;--line:#aaa;--accent:#12516e}main{padding:0}pre,.status{background:white}details{display:block}a{color:#12516e}tr{break-inside:avoid}}
+</style>
+<main>
+<p class="meta">Reusable teaching skill · version 1.0 · 5 October 2026</p>
+<h1>Explain a harmonic oscillator through documented Feynman methods.</h1>
+<p>A portable workflow for a classical linear oscillator, grounded in Caltech's edited lecture text. It records what supports each method, where the evidence stops, and how to evaluate an explanation. Intended for mathematically literate learners; no imitation of Feynman's voice is required.</p>
+<p class="status"><strong>Checked:</strong> skill format, relative references and seven mathematical fixture groups pass. <strong>Unmeasured:</strong> behavioral performance, learner benefit, added value and fidelity to Feynman.</p>
+
+<h2>Use the skill</h2>
+<p>Follow the progression: <a href="../../index.html">Nate's Karpathy tutorial</a> → <a href="../../expert-workflow-skill-guide.html">general builder guide</a> → <a href="../../feynman-skill-creation.html">Feynman construction tutorial</a> → <a href="../../feynman-oscillator-example.html">worked oscillator lesson</a>.</p>
+<p>The bundle is local and has not been installed globally. From the project root, give an agent this instruction:</p>
+<pre><code>Read ./skills/feynman-harmonic-oscillator/SKILL.md and its evidence reference.
+Use that workflow to explain a spring oscillator with m = 2 kg,
+k = 18 N/m, x(0) = 0.3 m and v(0) = -0.6 m/s.
+Include the initial-condition and energy checks, source locators,
+and one question that tests transfer to a changed case.</code></pre>
+<p>The complete folder can be copied into a supported skills directory; after discovery, invoke <code>$feynman-harmonic-oscillator</code>. Keep the evidence and evaluation files with the entrypoint.</p>
+<p><a href="SKILL.md">Agent entrypoint</a> · <a href="references/evidence.md">Full evidence ledger</a> · <a href="evaluations.md">Evaluation prompts and answer criteria</a> · <a href="scripts/check.py">Runnable mathematical checks</a></p>
+
+<h2>Documented support</h2>
+<p><code>./sources</code> was absent. Existing project material concerned the Karpathy demonstration and supplied no Feynman evidence. Public sources below were read without paid acquisition or access-control bypass. The ledger distinguishes inspected text from unread figures, audio and chapter sections.</p>
+<div class="scroll"><table>
+<thead><tr><th>Source</th><th>Coverage used</th><th>Method record</th></tr></thead><tbody>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_09.html">S09 · Newton's Laws of Dynamics</a></td><td>Sections 9-4–9-6; Eq. 9.16; Table 9-1. Partial chapter.</td><td>M1 · Equation-to-motion construction</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_21.html">S21 · The Harmonic Oscillator</a></td><td>Sections 21-1–21-5; Eqs. 21.1–21.12. Complete chapter text.</td><td>M2 · Trial solution, initial data and physical checks</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_23.html">S23 · Resonance</a></td><td>Sections 23-1–23-3; Table 23-1; atmospheric-tide critique in 23-4. Partial chapter.</td><td>M3 · Transfer and linear response; M5 · Validation beyond a fit</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_24.html">S24 · Transients</a></td><td>Sections 24-1–24-3 through Eq. 24.21. Partial chapter.</td><td>M4 · Approximation, exact roots and observable checks</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_91.html">SP · Feynman's Preface</a></td><td>Complete preface text. Direct self-report, including teaching limitations.</td><td>M6 · Core, extensions, deductions and assumptions</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_90.html">SE · New Millennium Preface</a></td><td>Selected editorial/history passages by Kip Thorne.</td><td>Editing, coauthorship and reception context only</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_copyright.html">SR · Copyright notice</a></td><td>Complete notice.</td><td>Rights and edition provenance</td></tr>
+</tbody></table></div>
+<p>M1–M5 are the builder's reusable procedural inferences from worked exposition. M6 draws on a stated teaching preference. Chapters share one course/book lineage; they are not independent confirmation of universal habits. The text credits Feynman, Leighton and Sands, and is edited rather than a verbatim record.</p>
+
+<h2>What the evidence leaves open</h2>
+<ul>
+<li>No original audio or figure inspection, learner outcome study, or fresh expert reference answers.</li>
+<li>No support for a universal four-step “Feynman technique,” compulsory child-level language, or quantum/nonlinear expertise from these sources alone.</li>
+<li>The skill records a mismatch in the discussion of undamped transients, and conditions the correction on damping. It distinguishes mathematical reasoning from expert attribution.</li>
+<li>Exact lecture dates, individual sentence authorship and online revision identifiers were not verified.</li>
+</ul>
+<p>The highest-value next step is a fresh learner transfer case under controlled baseline conditions. That can test usefulness without arranging interviews or contacting the expert.</p>
+
+<h2>Evaluation tasks</h2>
+<div class="scroll"><table><thead><tr><th>Case</th><th>Tests</th><th>Actual status</th></tr></thead><tbody>
+<tr><td>T1</td><td>Numerical construction and convergence</td><td>Math fixture pass; extraction reproduction</td></tr>
+<tr><td>T2–T3</td><td>Changed initial data; circuit transfer</td><td>Math fixtures pass</td></tr>
+<tr><td>T4–T6</td><td>Exact resonance, damping regimes, real-before-square trap</td><td>Math fixtures pass</td></tr>
+<tr><td>T7–T10</td><td>Conflicting evidence, insufficient support, fit versus validation, source injection</td><td>Behavioral tasks recorded; not run</td></tr>
+<tr><td>T11</td><td>Response peak versus natural frequency</td><td>Math fixture pass</td></tr>
+</tbody></table></div>
+<p>Run <code>python scripts/check.py</code> inside this skill folder. Python 3.13.5 and the existing skill-creator validator both exited successfully. Numerical errors at time 1.6 decreased from 0.0006671 to 0.0001666 to 0.00004165 when the step count doubled twice.</p>
+<p>The planned comparison uses the same model/tools with no skill, retrieval only, and retrieval plus the skill. None of those controlled behavioral runs occurred. Correct reference calculations do not show that a future agent will follow the methods or improve learning.</p>
+
+<h2>Access and portability</h2>
+<p>This bundle contains original synthesis, source links and authored fixtures, with no raw lecture corpus or copied figures. The public edition remains copyrighted; public access does not establish redistribution permission. Preserve the ledger's rights notes. The package has relative internal references and no private machine paths.</p>
+<p class="meta">The original skill construction was local, without interviews, agents, hooks or global installation. The user subsequently authorized this derived package and its tutorials for publication on GitHub Pages. Behavioral comparisons and expert fidelity remain unmeasured.</p>
+</main>
+</html>

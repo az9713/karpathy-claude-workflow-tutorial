@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A concrete walkthrough of how build-expert-workflow was specialized into a source-grounded Feynman harmonic-oscillator teaching skill.">
+<title>How the Feynman harmonic-oscillator skill was built</title>
+<style>
+:root{color-scheme:dark;--bg:#111820;--panel:#18232d;--fg:#e6ecf2;--muted:#b3c1cf;--line:#344453;--accent:#92d2ee;--gold:#e4c58b}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.7 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:48px 26px 80px}h1{font-size:clamp(2.2rem,5.2vw,3.65rem);line-height:1.12;letter-spacing:-.025em;max-width:900px}h2{font-size:1.75rem;line-height:1.3;margin:0 0 22px}h3{font-size:1.12rem;line-height:1.4;margin:0 0 10px}p{max-width:84ch}a{color:var(--accent);text-underline-offset:4px}a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:5px}.eyebrow,.muted{color:var(--muted)}.eyebrow{font-size:.85rem;text-transform:uppercase;letter-spacing:.1em}.lead{font-size:1.2rem}.note{padding:18px 22px;border-left:4px solid var(--accent);background:var(--panel);margin:26px 0}.note p{margin:0}.gold{border-color:var(--gold)}nav{display:flex;flex-wrap:wrap;gap:10px 24px;padding:20px 0;margin:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.94rem}section{padding:38px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}.flow{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:0;gap:12px}.flow li,.card{padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:6px}.flow strong{display:block;font-size:1.02rem;color:var(--accent)}.flow span{font-size:.88rem;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card p{margin:8px 0 0}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.93rem}th,td{padding:15px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--accent)}caption{text-align:left;color:var(--muted);margin-bottom:12px}pre{padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:6px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}code{font-size:.9em}ul,ol{padding-left:24px}li{margin:8px 0}details{margin:12px 0;padding:18px 20px;border:1px solid var(--line);border-radius:6px;background:var(--panel)}summary{cursor:pointer;font-weight:650;color:var(--accent)}details p:last-child{margin-bottom:0}.step{color:var(--gold);font-size:.86rem;font-weight:650;text-transform:uppercase;letter-spacing:.07em}.tree{color:var(--muted)}.skip{position:absolute;left:12px;top:-100px}.skip:focus{top:12px;background:var(--panel);padding:12px;z-index:5}@media(max-width:760px){main{padding:30px 18px 60px}.flow{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}th,td{padding:12px 10px}h2{font-size:1.5rem}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{:root{color-scheme:light;--bg:#fff;--panel:#fff;--fg:#111;--muted:#333;--line:#aaa;--accent:#155773;--gold:#665020}main{padding:0;max-width:none}nav,.skip{display:none}section{padding:22px 0}details{break-inside:avoid}details::details-content{content-visibility:visible}h1{font-size:30pt}h2,h3{break-after:avoid}tr,.card{break-inside:avoid}a{color:#155773}.tablewrap{overflow:visible}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the walkthrough</a>
+<main id="main">
+<header>
+<p class="eyebrow">Construction case study · 5 October 2026</p>
+<p class="muted">Reading path: <a href="index.html">Nate's Karpathy workflow</a> → <a href="expert-workflow-skill-guide.html">the general builder</a> → this specialization tutorial → <a href="feynman-oscillator-example.html">the worked lesson</a>. <a href="skills/feynman-harmonic-oscillator/overview.html">Inspect the Feynman skill report</a>.</p>
+<h1>How a general expert-workflow builder became a Feynman oscillator skill.</h1>
+<p class="lead"><code>build-expert-workflow</code> supplied a method for investigating and packaging expertise. The assistant applied it to one expert, one teaching task, a bounded collection of sources, and physics-specific checks. The result was a new set of instructions another agent can read and use.</p>
+<div class="note"><p><strong>The central operation:</strong> identify something observable in a source, decide when it is useful, turn it into an instruction, retain its attribution and limits, and define a check that could expose failure.</p></div>
+<p class="muted">This page explains the recorded build and the files it produced. The worked transformations below clarify the reasoning; they are not claims that an automated compiler or an undocumented intermediate tool ran.</p>
+<nav aria-label="Walkthrough sections"><a href="#mechanism">What a skill does</a><a href="#mapping">General to specific</a><a href="#trace">Trace one method</a><a href="#attribution">Who supplied what</a><a href="#checks">Checks and gaps</a><a href="#reuse">Repeat the process</a></nav>
+</header>
+
+<section id="mechanism">
+<h2>1. What actually happened when the builder was invoked?</h2>
+<p>The original request supplied the target and constraints:</p>
+<pre><code>$build-expert-workflow
+Create a reusable skill from Richard Feynman's documented methods
+for explaining a harmonic oscillator. Use ./sources and accessible
+public material. Do not arrange interviews. Record source support,
+coverage gaps, and evaluation tasks.</code></pre>
+<p>The assistant read the builder's <code>SKILL.md</code>, along with its source-access and evaluation references. Those Markdown files describe decisions to make and records to keep. The assistant then used ordinary tools to inspect files, retrieve public pages, write the new files, execute checks, and inspect an HTML report.</p>
+<p>There was no separate software function that automatically converted “Feynman” into a finished skill. The model interpreted the builder's instructions and made task-specific research and synthesis decisions. The durable output is readable text plus a small check script. No model weights were trained or changed.</p>
+<ol class="flow" aria-label="Construction sequence">
+<li><strong>General recipe</strong><span>The builder defines the evidence and packaging discipline.</span></li>
+<li><strong>Specific evidence</strong><span>The request and sources constrain what can be attributed.</span></li>
+<li><strong>Derived procedures</strong><span>The assistant writes conditional methods and domain checks.</span></li>
+<li><strong>Reusable bundle</strong><span>A future agent loads the new skill to perform the teaching task.</span></li>
+</ol>
+<p><strong>Creation time and use time are different.</strong> At creation time, the builder guides the assistant in constructing the package. At use time, an agent reads <code>feynman-harmonic-oscillator/SKILL.md</code> and its relevant references. The builder does not need to run again for every oscillator explanation.</p>
+<p class="muted">Construction instructions: <a href="skills/build-expert-workflow/SKILL.md">builder entrypoint</a>, <a href="skills/build-expert-workflow/references/source-access.md">source-access guidance</a>, <a href="skills/build-expert-workflow/references/evaluation.md">evaluation guidance</a>. The installed and project copies of the builder entrypoint were verified to have matching SHA-256 hashes when preparing this walkthrough.</p>
+</section>
+
+<section id="mapping">
+<h2>2. Where the general instructions became specific</h2>
+<p>The builder's stages stayed recognizable. Their inputs, decisions, checks, and resulting content changed with the topic.</p>
+<div class="tablewrap"><table>
+<caption>Each row maps a builder instruction to an actual specialization and its recorded output.</caption>
+<thead><tr><th scope="col">General builder stage</th><th scope="col">Decision in this build</th><th scope="col">Where it landed</th></tr></thead>
+<tbody>
+<tr><td>Establish the target</td><td>Richard P. Feynman; explain a classical linear oscillator to mathematically literate adults. Bound the task to one degree of freedom, with selected driving, damping and circuit extensions.</td><td>Skill description, scope and exclusions.</td></tr>
+<tr><td>Audit access before collecting</td><td><code>./sources</code> did not exist. The repository's Karpathy material was irrelevant as Feynman evidence. Use accessible Caltech pages; record inspected sections, unread media, copyright and missing access.</td><td>Evidence ledger's local audit, source table and permissions notes.</td></tr>
+<tr><td>Choose the strongest supportable route</td><td>Edited primary lectures and direct teaching self-report support a narrow source-grounded reconstruction. They do not establish a reproduction of Feynman's mind, delivery, or general expertise.</td><td>Evidence route and claim boundaries.</td></tr>
+<tr><td>Compile evidence into methods</td><td>Extract six method records, M1–M6, with triggers, locators, attribution, rejected alternatives and stopping conditions.</td><td>Operating methods in the skill; detailed support rows in the ledger.</td></tr>
+<tr><td>Package the smallest usable skill</td><td>Write the required entrypoint, evidence ledger and evaluations. Add one standard-library mathematical check script and an HTML handoff. The collection was small enough to omit a wiki and hot-context file.</td><td>The portable folder shown below.</td></tr>
+<tr><td>Use domain-appropriate verification</td><td>Physics demands equation substitution, initial-condition checks, units, energy, limiting regimes and counterexamples. Script execution alone cannot show understanding or teaching fidelity.</td><td>Mathematical verification instructions and fixture script.</td></tr>
+<tr><td>Evaluate before claiming fidelity</td><td>Record eleven tasks and a three-condition baseline design. Run deterministic checks; explicitly leave controlled model comparisons, learner outcomes and expert fidelity unmeasured.</td><td>Evaluation tasks, graders, actual results and not-run statuses.</td></tr>
+<tr><td>Update and hand off</td><td>Use relative references, report limitations, and preserve provenance when revising. Deliver locally without interviews, global installation, agents, hooks, commits or publication.</td><td>Maintenance instructions and the rendered handoff report.</td></tr>
+</tbody></table></div>
+<p>The specialization required more than replacing an expert's name in a template. It required deciding which evidence mattered, extracting procedures from it, choosing oscillator-specific failure cases, and bounding the claims the package could make.</p>
+</section>
+
+<section>
+<h2>3. The source collection was chosen for the task</h2>
+<p>The core evidence was a short sequence of relevant lecture chapters. Source IDs make a method traceable without embedding a whole book in every prompt.</p>
+<div class="tablewrap"><table>
+<thead><tr><th scope="col">Source</th><th scope="col">Role in the construction</th><th scope="col">Method</th></tr></thead><tbody>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_09.html">S09 · Newton's Laws of Dynamics</a></td><td>Sections 9-4–9-6; Eq. 9.16; numerical state evolution.</td><td>M1 · Make the equation act.</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_21.html">S21 · The Harmonic Oscillator</a></td><td>Sections 21-2–21-4; solution, scaling, starting data and physical checks.</td><td>M2 · Test the answer physically and mathematically.</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_23.html">S23 · Resonance</a></td><td>Sections 23-1–23-3 and Table 23-1; atmospheric-tide example in 23-4.</td><td>M3 · Transfer through equations.<br>M5 · Test beyond the fit.</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_24.html">S24 · Transients</a></td><td>Sections 24-1–24-3; approximate and exact treatment, representation limits.</td><td>M4 · Refine the approximation.</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_91.html">SP · Feynman's Preface</a></td><td>Named self-report about teaching choices.</td><td>M6 · Keep a backbone.</td></tr>
+<tr><td><a href="https://www.feynmanlectures.caltech.edu/I_90.html">SE · New Millennium Preface</a><br><a href="https://www.feynmanlectures.caltech.edu/I_copyright.html">SR · Copyright notice</a></td><td>Editorial provenance, coauthorship, reception, edition dates and rights.</td><td>Context and restrictions; no Feynman teaching rule extracted from these.</td></tr>
+</tbody></table></div>
+<p>The evidence ledger also records a metadata-only candidate, chapter 22, and a failed guessed copyright URL. Neither supplied method support. The correct copyright page was obtained from a chapter footer link.</p>
+<p><strong>Coverage was recorded per item:</strong> all chapter 21 text was inspected, while other chapters had bounded inspected sections. Figures were not visually reviewed and audio was not played. Several chapters belong to the same course/book lineage, so their repetition is not independent corroboration of lifelong habits. Full access details are in the <a href="skills/feynman-harmonic-oscillator/references/evidence.md">evidence ledger</a>.</p>
+<p>No raw lecture corpus or copied figures were bundled. Public reading access and redistribution rights were treated separately. The resulting package stores original synthesis, links and authored tests.</p>
+</section>
+
+<section id="trace">
+<h2>4. Trace one source passage into an operating instruction</h2>
+<p>M2 is a useful example because its instructional value comes from an observable sequence of operations.</p>
+<div class="grid">
+<article class="card"><p class="step">A · Observation</p><h3>What the lecture does</h3><p>In section 21-2, the exposition tries amplitude scaling, finds that it preserves the normalized equation, and changes the time scale instead. It verifies the candidate by differentiating. <a href="https://www.feynmanlectures.caltech.edu/I_21.html">S21, Eqs. 21.2–21.4</a>.</p></article>
+<article class="card"><p class="step">B · Interpretation</p><h3>What can be reused</h3><p>A teaching procedure can distinguish the effect of two transformations, test which equation each satisfies, and connect the successful transformation to physical parameters. Calling that a reusable method is the builder's inference.</p></article>
+<article class="card"><p class="step">C · Conditional instruction</p><h3>When it should apply</h3><p>For a free linear spring oscillator, distinguish amplitude scaling from time scaling and substitute the proposed solution. Use the starting data and energy as checks. The condition matters: nonlinear forces can invalidate the amplitude-independent period.</p></article>
+<article class="card"><p class="step">D · Evaluation</p><h3>How failure could be exposed</h3><p>Give the agent changed mass, stiffness and starting data. Require the correct frequency, both starting values, energy, and the consequences of doubling both initial values. A wrong frequency or energy relation should fail the grader.</p></article>
+</div>
+<details open>
+<summary>The translation in compact form</summary>
+<pre><code>Evidence locator:
+  S21, section 21-2, Eqs. 21.2–21.4
+
+Observed contrast:
+  A*cos(t) still satisfies x'' = -x.
+  cos(omega0*t) satisfies x'' = -omega0^2*x.
+
+Derived instruction:
+  When explaining free linear motion, distinguish amplitude from
+  time scaling and verify the proposed solution by substitution.
+
+Attribution:
+  Inferred procedure from edited exposition.
+  No claim that Feynman stated this as a universal personal rule.
+
+Application check:
+  T2: m=2, k=18, x0=0.3, v0=-0.6.
+  omega0=3; x(t)=0.3*cos(3t)-0.2*sin(3t).</code></pre>
+<p>The first expressions use the lecture's normalized setting. T2 is a newly authored application with physical units in the evaluation file. Passing its arithmetic does not establish that a model will follow the teaching method.</p>
+</details>
+<p>The actual <a href="skills/feynman-harmonic-oscillator/SKILL.md">skill entrypoint</a> condenses this into M2. The longer <a href="skills/feynman-harmonic-oscillator/references/evidence.md">ledger entry</a> preserves support, scope and stopping conditions. This separation keeps the operational instruction readable while making its origin inspectable.</p>
+
+<details open>
+<summary>A second transformation: approximation into an explicit boundary</summary>
+<p>In chapter 24, an approximate weak-loss prediction is followed by an exact solution whose oscillation frequency differs from the initial guess. The construction turns that contrast into M4: identify the regime, compare the approximation with exact roots, and stop using a damped-cosine form when the roots are no longer oscillatory. <a href="https://www.feynmanlectures.caltech.edu/I_24.html">S24, section 24-2, Eqs. 24.10–24.17; section 24-3</a>.</p>
+<p>T5 then asks for classification at <code>omega0=3</code> and <code>gamma=1, 6, 8</code>. Those values test whether an explanation respects underdamped, critical and overdamped regimes. They were authored by the builder; they are not undisclosed Feynman reference answers.</p>
+</details>
+</section>
+
+<section id="attribution">
+<h2>5. Three kinds of content entered the new skill</h2>
+<p>This distinction is the main defense against attaching a famous name to generic model output.</p>
+<div class="tablewrap"><table>
+<thead><tr><th scope="col">Content type</th><th scope="col">Example in this package</th><th scope="col">What attribution is justified?</th></tr></thead><tbody>
+<tr><td>Observed source behavior</td><td>M1–M5 generalize worked exposition.</td><td>Documented examples support a bounded procedural inference. Exact sentence authorship and an invariant personal rule are not established.</td></tr>
+<tr><td>Explicit teaching self-report</td><td>M6 uses the preface's distinction between a core and extensions, and deductions and newly introduced ideas.</td><td>A stated teaching preference; its effectiveness still needs testing. <a href="https://www.feynmanlectures.caltech.edu/I_91.html">SP, paragraphs beginning “For this reason” and “At the same time.”</a></td></tr>
+<tr><td>Builder-supplied scaffolding and physics</td><td>The operating loop, learner transfer question, evaluation protocol, parameter fixtures, units checks and corrective derivations.</td><td>Generic task design or physics reasoning by the builder. These additions are not new historical evidence about Feynman.</td></tr>
+</tbody></table></div>
+<p>The preface explicitly describes the lectures as edited. That limits claims about original wording and delivery. The skill accordingly treats its method names as labels created for this package. <a href="https://www.feynmanlectures.caltech.edu/I_91.html">Feynman's Preface, opening paragraph.</a></p>
+<div class="note gold"><p><strong>A source can be authentic and still need qualification.</strong> The ledger preserves the passage about transients dying away beside an undamped equation. The skill supplies the damping condition rather than repeating it unqualified. Mathematical correctness and faithful attribution are separate checks.</p></div>
+<p>The six methods were chosen for available support. The builder did not prescribe six, seven, or any other fixed count. Karpathy's seven rules from the earlier demonstration were not imported into this physics skill.</p>
+</section>
+
+<section>
+<h2>6. How the decisions became files</h2>
+<pre class="tree"><code>skills/feynman-harmonic-oscillator/
+├── SKILL.md                 Discovery, scope and operating instructions
+├── references/evidence.md   Sources, attribution, contradictions and gaps
+├── evaluations.md           Prompts, graders, baselines and actual status
+├── scripts/check.py         Runnable mathematical and reference checks
+└── overview.html            Human-readable handoff</code></pre>
+<p>The builder required the first three files. The script was added because the task had mathematical claims that could be checked cheaply and repeatably. The HTML provided the human-facing delivery. No retrieval database, wiki, agents, hooks or enforcement service was needed for this small corpus.</p>
+<p>The entrypoint's YAML <code>name</code> and <code>description</code> tell a skill-aware host what the capability is and when it applies. The body directs the agent to the methods and references. This build created a portable local folder; it did not install the skill globally or prove automatic discovery in a host.</p>
+<p>A useful way to inspect the package is to start at a method in <code>SKILL.md</code>, follow its source ID into the ledger, inspect the original passage, then examine a task that could reveal misuse. That chain is the main reusable asset.</p>
+<p><a href="skills/feynman-harmonic-oscillator/overview.html">Open the original handoff report</a> · <a href="skills/feynman-harmonic-oscillator/SKILL.md">Inspect the generated entrypoint</a> · <a href="skills/feynman-harmonic-oscillator/evaluations.md">Inspect all eleven evaluation tasks</a></p>
+</section>
+
+<section id="checks">
+<h2>7. What was checked, and what remains unknown?</h2>
+<p>The builder's evaluation discipline was carried into the package, but the full behavioral pilot was not completed. The report records that boundary.</p>
+<div class="tablewrap"><table>
+<thead><tr><th scope="col">Check</th><th scope="col">Recorded result</th><th scope="col">Meaning of that result</th></tr></thead><tbody>
+<tr><td>Skill-creator format validator</td><td>Pass.</td><td>The entrypoint satisfies the validator's format and naming checks. This is not a measure of explanation quality.</td></tr>
+<tr><td>References and portability</td><td>Pass; copied bundle ran in a temporary directory.</td><td>Required files and relative links work without the creator's private machine path.</td></tr>
+<tr><td>Mathematical fixture groups</td><td>T1, T2, T3, T4, T5, T6 and T11 pass.</td><td>Checked convergence, selected starting data, energy, resonance, characteristic roots, a representation counterexample and a response-peak condition. Finite-point assertions supplement derivations; they do not evaluate model behavior.</td></tr>
+<tr><td>Grounding review</td><td>Builder compared methods against cited passages.</td><td>Limited self-review, with no independent evaluator.</td></tr>
+<tr><td>HTML handoff</td><td>Rendered DOM and desktop screenshot inspected.</td><td>The human-facing delivery was readable in Chrome.</td></tr>
+<tr><td>Controlled model comparisons</td><td>Not run.</td><td>No observed estimate of procedural gains, attribution-error rates or appropriate behavioral abstentions.</td></tr>
+<tr><td>Learner / instructor review; fresh expert reference answers</td><td>Not available or not run.</td><td>Learning benefit and fidelity remain unmeasured.</td></tr>
+</tbody></table></div>
+<p>Eleven tasks were specified. T7–T10 address conflicting evidence, unsupported attribution, fitting versus validation, and malicious instructions inside a purported source. They exist as prompts and graders; their existence is not a passing result.</p>
+<p>T1 repeats an extraction example. The other values and adversarial cases were designed after extraction. They are fresh applications but not a preregistered, independently held-out evaluation corpus. That is a real limitation of this first build.</p>
+<h3>The comparison that would demystify added value further</h3>
+<div class="grid">
+<article class="card"><h3>B0 · Base model</h3><p>Same model and tools, without the skill or source retrieval. This provides an ordinary-answer baseline.</p></article>
+<article class="card"><h3>B1 · Retrieval only</h3><p>Same model and tools, with the audited passages but without the derived procedures.</p></article>
+<article class="card"><h3>B2 · Retrieval plus skill</h3><p>Same source access as B1, plus the new skill instructions.</p></article>
+<article class="card"><h3>Compare B1 with B2</h3><p>Hold source access constant to test whether procedural guidance helps. B0 versus B2 mixes knowledge access with method gains.</p></article>
+</div>
+<p>Use fresh contexts and keep model version, settings, prompts, tools and budgets fixed. Keep the grader's answer key out of the model context. An instructor or learner should assess whether an explanation transfers to a changed case; model self-scores alone are insufficient. This design is recorded in <a href="skills/feynman-harmonic-oscillator/evaluations.md">evaluations.md</a> and remains a planned experiment.</p>
+</section>
+
+<section id="reuse">
+<h2>8. How to specialize the same builder for another topic</h2>
+<p>The general process is reusable; the evidence and tests must change.</p>
+<ol>
+<li><strong>Specify one capability.</strong> Name the expert, the task, the audience and a concrete success criterion. “Explain this oscillator” has a usable boundary; “become Feynman” does not.</li>
+<li><strong>Find observed procedures.</strong> Prefer worked cases containing a choice, a rejected alternative, a check or a correction. A biography or a reputation is weak support for an operating method.</li>
+<li><strong>Write conditional instructions.</strong> Preserve when each method applies and where it stops. Retain locators and distinguish direct statements from your inferences.</li>
+<li><strong>Choose the domain's checks.</strong> For physics use derivations and relevant observations; for code use tests; for other fields choose outcome measures or qualified review appropriate to the task.</li>
+<li><strong>Design transfer and failure cases.</strong> Include a routine task, unfamiliar application, exception and beyond-evidence request. Plan evaluation cases before extraction where feasible to improve separation.</li>
+<li><strong>Package and report honestly.</strong> Keep the skill, evidence and evaluation records together. State what ran and what is unknown. Expand scope only when new evidence and evaluation justify it.</li>
+</ol>
+<pre><code>$build-expert-workflow
+Create a reusable skill for [expert]'s documented methods for [bounded task].
+Audience: [learner or operator].
+Success: [observable output or outcome].
+Use [authorized local sources] and accessible public primary material.
+Do not arrange interviews.
+Record source locators, attribution, coverage gaps and conflicting evidence.
+Separate expert-supported methods from generic domain checks.
+Design transfer, exception and insufficient-evidence evaluations.
+Report actual test results and leave unmeasured claims explicit.</code></pre>
+<p>This is a reusable prompt template derived for this walkthrough, not an additional command executed during the Feynman build.</p>
+<div class="note"><p><strong>The next experiment:</strong> ask a learner to solve a changed oscillator case after each explanation under B1 and B2. That tests whether the instructions help transfer knowledge, beyond merely making the answer sound convincingly Feynman-like.</p></div>
+</section>
+
+<footer>
+<h2 style="margin-top:32px">Construction record and provenance</h2>
+<p>Prepared from the recorded creation session and the generated skill, evidence ledger, evaluation file and check script. External source claims are linked at the relevant passage above. The detailed rights and access notes remain in the evidence ledger. This walkthrough uses original explanation and paraphrase; no raw lecture text or figures are embedded.</p>
+<p>The original build used filesystem reads and search, public web retrieval, file patches, the existing skill-creator validator, Python 3.13.5 standard-library checks, a temporary local HTTP preview, and Chrome DOM/screenshot inspection. The preview server was stopped afterward. No interviews, delegated agents, paid acquisition, training, hook changes or publication occurred.</p>
+<p class="muted">The original construction was local. This case study and the derived package are now prepared for user-authorized GitHub Pages publication. They describe a bounded, source-grounded skill construction and its recorded limits.</p>
+</footer>
+</main>
+</body>
+</html>
